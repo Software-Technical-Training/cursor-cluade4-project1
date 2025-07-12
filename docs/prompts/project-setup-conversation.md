@@ -99,4 +99,17 @@ This application will be getting status of groceries from a sensor that is in th
 **Response:** Updated conversation file to:
 - Fix date to July 12, 2025
 - Include full user prompts as provided (not condensed versions)
-- Updated cursorrules to explicitly save full prompts 
+- Updated cursorrules to explicitly save full prompts
+
+### Architecture Document Correction
+
+**User Prompt 11:**
+"User registration flow missed the fact that we also require them to provide their phone and address. Without the address we won't be able to show them a google maps and nearby grocery stores for them to pick the one they want to reorder from. Make these updates to arch doc"
+
+**Response:** Updated architecture documentation to correctly reflect that phone and address are required during registration:
+- Made phone and address required fields in GraphQL RegisterInput type
+- Updated User type to show phone and address as required (non-nullable)
+- Added comment to REST registration endpoint showing required fields
+- Updated Data Flow Scenarios to show address is collected during registration and used for store selection
+- Updated sequence diagram to show all fields collected at registration
+- Clarified that store selection uses the address provided during registration 

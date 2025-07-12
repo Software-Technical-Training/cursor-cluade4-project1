@@ -311,7 +311,7 @@ The system provides both REST and GraphQL interfaces to accommodate different cl
 
 #### Authentication
 ```
-POST   /api/auth/register
+POST   /api/auth/register  # Requires: email, password, name, phone, address
 POST   /api/auth/login
 POST   /api/auth/logout
 POST   /api/auth/refresh
@@ -438,8 +438,8 @@ type User {
     id: ID!
     email: String!
     name: String!
-    phone: String
-    address: String
+    phone: String!
+    address: String!
     devices: [Device!]!
     selectedStore: Store
     orders(limit: Int = 10, offset: Int = 0): OrderConnection!
@@ -564,8 +564,8 @@ input RegisterInput {
     email: String!
     password: String!
     name: String!
-    phone: String
-    address: String
+    phone: String!
+    address: String!
 }
 
 input UpdateProfileInput {
@@ -782,13 +782,15 @@ subscription WatchInventory {
 ## Data Flow Scenarios
 
 ### 1. User Registration & Setup Flow
-1. User registers with email/password
-2. System creates user account
-3. User adds device ID
-4. System validates and links device
-5. User selects nearby store
-6. User adds payment info (mocked)
-7. Setup complete
+1. User registers with email, password, name, phone, and address
+2. System creates user account with all required information
+3. System uses address to determine user location for store selection
+4. User adds device ID
+5. System validates and links device
+6. System shows Google Maps with up to 5 nearby grocery stores based on user's address
+7. User selects preferred store
+8. User adds payment info (mocked)
+9. Setup complete
 
 ### 2. Inventory Monitoring Flow
 1. Sensor sends data (mocked)

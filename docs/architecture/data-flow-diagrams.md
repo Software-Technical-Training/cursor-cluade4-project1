@@ -102,10 +102,10 @@ sequenceDiagram
     Note over U,REDIS: Registration Phase
     U->>W: Navigate to signup
     W->>U: Show registration form
-    U->>W: Submit (email, password, name)
+    U->>W: Submit (email, password, name, phone, address)
     W->>API: POST /api/auth/register
     API->>AUTH: Create user account
-    AUTH->>DB: Store user credentials
+    AUTH->>DB: Store user data including address
     AUTH->>REDIS: Create session
     AUTH-->>API: Return JWT token
     API-->>W: Registration success + token
@@ -120,12 +120,13 @@ sequenceDiagram
     W->>U: Show store selection
     
     Note over U,REDIS: Setup Phase - Store Selection
-    W->>API: GET /api/stores/nearby
-    API->>MAPS: Get nearby stores
+    W->>API: GET /api/stores/nearby (using user's address)
+    API->>DB: Fetch user address
+    API->>MAPS: Get nearby stores based on address
     MAPS-->>API: Store locations
     API->>DB: Fetch store details
-    API-->>W: List of 5 stores
-    W->>U: Display stores on map
+    API-->>W: List of up to 5 stores
+    W->>U: Display stores on Google Maps
     U->>W: Select preferred store
     W->>API: POST /api/stores/select
     API->>DB: Save user preference
