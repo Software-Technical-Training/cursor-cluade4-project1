@@ -20,4 +20,6 @@ This is a POC application that receives grocery data from a fridge sensor and au
 
 ## Other Instructions
 1. Always save my prompts and your summary in a markdown file when working on this project
+   - Save user prompts EXACTLY as provided - do not condense or summarize them
+   - Include the full, unedited text of each user prompt
 2. Do not make any updates till I specifically ask. Always plan first and then execute 
