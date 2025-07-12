@@ -8,7 +8,7 @@ This document outlines the architecture for a Proof of Concept (POC) application
 
 The Grocery Automation System consists of:
 - **Web Application**: ReactJS-based user interface
-- **Backend Services**: Spring Boot REST API
+- **Backend Services**: Spring Boot REST and GQL API
 - **IoT Integration**: Sensor data collection (mocked initially)
 - **Store Integration**: Grocery store selection and ordering
 - **Cloud Infrastructure**: Google Cloud Platform deployment
