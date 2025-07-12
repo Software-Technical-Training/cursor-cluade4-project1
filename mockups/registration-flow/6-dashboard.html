@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GroceryAuto - Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header-section" style="display: flex; justify-content: space-between; align-items: center; padding: 20px 40px;">
+            <div class="logo-container" style="margin: 0;">
+                <i class="fas fa-shopping-basket logo-icon" style="font-size: 36px;"></i>
+                <h1 class="logo-text" style="font-size: 28px;">GroceryAuto</h1>
+            </div>
+            <div style="display: flex; align-items: center; gap: 20px;">
+                <div style="text-align: right;">
+                    <div style="font-weight: 500;">Welcome, John!</div>
+                    <div style="font-size: 14px; color: var(--dark-gray);">Kitchen Fridge Connected</div>
+                </div>
+                <button class="btn btn-secondary" style="padding: 8px 16px;">
+                    <i class="fas fa-cog"></i> Settings
+                </button>
+            </div>
+        </header>
+        
+        <!-- Success Message -->
+        <div style="background-color: rgba(76, 175, 80, 0.1); border: 1px solid var(--success-green); border-radius: 8px; padding: 20px; margin-bottom: 30px; text-align: center;">
+            <i class="fas fa-check-circle" style="color: var(--success-green); font-size: 48px; margin-bottom: 15px;"></i>
+            <h2 style="color: var(--success-green); margin-bottom: 10px;">Setup Complete!</h2>
+            <p style="color: var(--dark-gray);">Your GroceryAuto system is now active and monitoring your fridge.</p>
+        </div>
+        
+        <!-- Alert Banner -->
+        <div class="alert-banner">
+            <i class="fas fa-exclamation-triangle"></i>
+            <div class="alert-content">
+                <div class="alert-title">Low Stock Alert</div>
+                <div class="alert-message">3 items are running low. An automatic order will be placed tomorrow at 10 AM.</div>
+            </div>
+            <button class="btn btn-primary" style="padding: 8px 16px; font-size: 14px;">View Details</button>
+        </div>
+        
+        <!-- Stats Grid -->
+        <div class="dashboard-grid">
+            <div class="stat-card">
+                <i class="fas fa-box stat-icon green"></i>
+                <div class="stat-value">18</div>
+                <div class="stat-label">Total Items Monitored</div>
+            </div>
+            
+            <div class="stat-card">
+                <i class="fas fa-exclamation-circle stat-icon orange"></i>
+                <div class="stat-value">3</div>
+                <div class="stat-label">Low Stock Items</div>
+            </div>
+            
+            <div class="stat-card">
+                <i class="fas fa-truck stat-icon blue"></i>
+                <div class="stat-value">$45.20</div>
+                <div class="stat-label">Next Order Estimate</div>
+            </div>
+            
+            <div class="stat-card">
+                <i class="fas fa-calendar-check stat-icon green"></i>
+                <div class="stat-value">2</div>
+                <div class="stat-label">Days Until Delivery</div>
+            </div>
+        </div>
+        
+        <!-- Two Column Layout -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 30px;">
+            <!-- Current Inventory -->
+            <div class="inventory-section">
+                <div class="section-header">
+                    <h3 class="section-title">Current Inventory</h3>
+                    <button class="btn btn-secondary" style="padding: 6px 12px; font-size: 14px;">
+                        <i class="fas fa-sync-alt"></i> Sync
+                    </button>
+                </div>
+                
+                <div class="inventory-list">
+                    <div class="inventory-item">
+                        <div class="item-info">
+                            <div class="item-icon">
+                                <i class="fas fa-carrot"></i>
+                            </div>
+                            <div>
+                                <div class="item-name">Milk (2% Organic)</div>
+                                <div style="font-size: 14px; color: var(--dark-gray);">0.5 gallons remaining</div>
+                            </div>
+                        </div>
+                        <div class="item-status">
+                            <span class="status-indicator critical"></span>
+                            <span style="color: var(--danger-red); font-size: 14px;">Low</span>
+                        </div>
+                    </div>
+                    
+                    <div class="inventory-item">
+                        <div class="item-info">
+                            <div class="item-icon">
+                                <i class="fas fa-egg"></i>
+                            </div>
+                            <div>
+                                <div class="item-name">Eggs (Large, Dozen)</div>
+                                <div style="font-size: 14px; color: var(--dark-gray);">4 eggs remaining</div>
+                            </div>
+                        </div>
+                        <div class="item-status">
+                            <span class="status-indicator low"></span>
+                            <span style="color: var(--warning-yellow); font-size: 14px;">Low</span>
+                        </div>
+                    </div>
+                    
+                    <div class="inventory-item">
+                        <div class="item-info">
+                            <div class="item-icon">
+                                <i class="fas fa-bread-slice"></i>
+                            </div>
+                            <div>
+                                <div class="item-name">Whole Wheat Bread</div>
+                                <div style="font-size: 14px; color: var(--dark-gray);">8 slices remaining</div>
+                            </div>
+                        </div>
+                        <div class="item-status">
+                            <span class="status-indicator low"></span>
+                            <span style="color: var(--warning-yellow); font-size: 14px;">Low</span>
+                        </div>
+                    </div>
+                    
+                    <div class="inventory-item">
+                        <div class="item-info">
+                            <div class="item-icon">
+                                <i class="fas fa-cheese"></i>
+                            </div>
+                            <div>
+                                <div class="item-name">Cheddar Cheese</div>
+                                <div style="font-size: 14px; color: var(--dark-gray);">1.2 lbs remaining</div>
+                            </div>
+                        </div>
+                        <div class="item-status">
+                            <span class="status-indicator good"></span>
+                            <span style="color: var(--success-green); font-size: 14px;">Good</span>
+                        </div>
+                    </div>
+                    
+                    <div class="inventory-item">
+                        <div class="item-info">
+                            <div class="item-icon">
+                                <i class="fas fa-apple-alt"></i>
+                            </div>
+                            <div>
+                                <div class="item-name">Apples (Gala)</div>
+                                <div style="font-size: 14px; color: var(--dark-gray);">6 apples remaining</div>
+                            </div>
+                        </div>
+                        <div class="item-status">
+                            <span class="status-indicator good"></span>
+                            <span style="color: var(--success-green); font-size: 14px;">Good</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin-top: 20px;">
+                    <a href="#" style="color: var(--primary-blue); text-decoration: none; font-size: 14px;">View All Items →</a>
+                </div>
+            </div>
+            
+            <!-- Recent Orders -->
+            <div class="inventory-section">
+                <div class="section-header">
+                    <h3 class="section-title">Order History</h3>
+                    <button class="btn btn-secondary" style="padding: 6px 12px; font-size: 14px;">
+                        <i class="fas fa-filter"></i> Filter
+                    </button>
+                </div>
+                
+                <div style="background-color: var(--light-gray); border-radius: 8px; padding: 20px; text-align: center; margin-bottom: 20px;">
+                    <i class="fas fa-clock" style="font-size: 32px; color: var(--primary-blue); margin-bottom: 10px;"></i>
+                    <div style="font-weight: 500; margin-bottom: 5px;">Automatic Order Scheduled</div>
+                    <div style="font-size: 14px; color: var(--dark-gray);">Tomorrow at 10:00 AM</div>
+                    <div style="margin-top: 10px;">
+                        <button class="btn btn-primary" style="padding: 6px 16px; font-size: 14px;">Review Order</button>
+                    </div>
+                </div>
+                
+                <div style="display: flex; flex-direction: column; gap: 15px;">
+                    <div style="border: 1px solid var(--medium-gray); border-radius: 8px; padding: 15px;">
+                        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 10px;">
+                            <div>
+                                <div style="font-weight: 500;">Order #GA2024-001</div>
+                                <div style="font-size: 14px; color: var(--dark-gray);">July 10, 2025</div>
+                            </div>
+                            <span style="background-color: var(--success-green); color: white; padding: 4px 8px; border-radius: 4px; font-size: 12px;">Delivered</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div style="font-size: 14px; color: var(--dark-gray);">12 items • Whole Foods</div>
+                            <div style="font-weight: 500;">$87.43</div>
+                        </div>
+                    </div>
+                    
+                    <div style="border: 1px solid var(--medium-gray); border-radius: 8px; padding: 15px;">
+                        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 10px;">
+                            <div>
+                                <div style="font-weight: 500;">Order #GA2024-002</div>
+                                <div style="font-size: 14px; color: var(--dark-gray);">July 3, 2025</div>
+                            </div>
+                            <span style="background-color: var(--success-green); color: white; padding: 4px 8px; border-radius: 4px; font-size: 12px;">Delivered</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div style="font-size: 14px; color: var(--dark-gray);">8 items • Whole Foods</div>
+                            <div style="font-weight: 500;">$54.21</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin-top: 20px;">
+                    <a href="#" style="color: var(--primary-blue); text-decoration: none; font-size: 14px;">View All Orders →</a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Quick Actions -->
+        <div style="background-color: var(--white); border-radius: 10px; padding: 30px; margin-top: 30px; box-shadow: 0 2px 10px var(--shadow); text-align: center;">
+            <h3 style="margin-bottom: 20px;">Quick Actions</h3>
+            <div style="display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;">
+                <button class="btn btn-primary">
+                    <i class="fas fa-plus"></i> Add Item Manually
+                </button>
+                <button class="btn btn-secondary">
+                    <i class="fas fa-sliders-h"></i> Adjust Thresholds
+                </button>
+                <button class="btn btn-secondary">
+                    <i class="fas fa-store"></i> Change Store
+                </button>
+                <button class="btn btn-secondary">
+                    <i class="fas fa-bell"></i> Notification Settings
+                </button>
+            </div>
+        </div>
+        
+        <footer>
+            <p>&copy; 2025 GroceryAuto. All rights reserved.</p>
+            <p>Need help? <a href="#" style="color: var(--primary-blue);">Contact Support</a> • <a href="#" style="color: var(--primary-blue);">View Guide</a></p>
+        </footer>
+    </div>
+</body>
+</html> 

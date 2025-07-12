@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GroceryAuto - Connect Your Device</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="main-card">
+            <!-- Progress Bar -->
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 40%;"></div>
+                </div>
+                <div class="progress-steps">
+                    <div class="progress-step completed">
+                        <i class="fas fa-check"></i>
+                        <span>Account</span>
+                    </div>
+                    <div class="progress-step active">
+                        <i class="fas fa-microchip"></i>
+                        <span>Device</span>
+                    </div>
+                    <div class="progress-step">
+                        <i class="fas fa-store"></i>
+                        <span>Store</span>
+                    </div>
+                    <div class="progress-step">
+                        <i class="fas fa-credit-card"></i>
+                        <span>Payment</span>
+                    </div>
+                    <div class="progress-step">
+                        <i class="fas fa-check"></i>
+                        <span>Complete</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Card Header -->
+            <div class="card-header">
+                <div class="device-icon">
+                    <i class="fas fa-microchip"></i>
+                </div>
+                <h2 style="font-size: 28px; margin-bottom: 10px;">Connect Your Sensor</h2>
+                <p style="opacity: 0.9;">Link your smart fridge sensor to start monitoring</p>
+            </div>
+            
+            <!-- Card Body -->
+            <div class="card-body">
+                <!-- Device Instructions -->
+                <div style="background-color: var(--light-gray); border-radius: 8px; padding: 20px; margin-bottom: 30px;">
+                    <h3 style="margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+                        <i class="fas fa-info-circle" style="color: var(--primary-blue);"></i>
+                        How to Find Your Device ID
+                    </h3>
+                    <ol style="margin-left: 20px; color: var(--dark-gray); line-height: 1.8;">
+                        <li>Locate the GroceryAuto sensor in your fridge</li>
+                        <li>Find the 12-character ID on the back of the device</li>
+                        <li>Make sure the device LED is blinking blue (ready to pair)</li>
+                        <li>Enter the ID below to connect</li>
+                    </ol>
+                </div>
+                
+                <!-- Device ID Input -->
+                <form>
+                    <div class="form-group">
+                        <label class="form-label">
+                            Device ID <span class="required">*</span>
+                        </label>
+                        <div class="device-input-wrapper">
+                            <input type="text" 
+                                   class="form-input device-input" 
+                                   placeholder="XXXX-XXXX-XXXX" 
+                                   maxlength="14"
+                                   value="GA2B-5K9L-P4QR">
+                            <i class="fas fa-qrcode scan-icon" title="Scan QR Code"></i>
+                        </div>
+                        <div class="form-helper">Enter the 12-character device ID (dashes optional)</div>
+                    </div>
+                    
+                    <!-- Device Name (Optional) -->
+                    <div class="form-group">
+                        <label class="form-label">
+                            Device Name (Optional)
+                        </label>
+                        <input type="text" 
+                               class="form-input" 
+                               placeholder="e.g., Kitchen Fridge"
+                               value="Kitchen Fridge">
+                        <div class="form-helper">Give your device a friendly name for easy identification</div>
+                    </div>
+                    
+                    <!-- Connection Status -->
+                    <div style="background-color: rgba(92, 184, 92, 0.1); border: 1px solid var(--success-green); border-radius: 6px; padding: 15px; margin: 30px 0; display: flex; align-items: center; gap: 15px;">
+                        <i class="fas fa-check-circle" style="color: var(--success-green); font-size: 24px;"></i>
+                        <div>
+                            <div style="font-weight: 600; color: var(--text-color);">Device Found!</div>
+                            <div style="font-size: 14px; color: var(--dark-gray); margin-top: 2px;">GroceryAuto Sensor v2.1 • Last seen: Just now</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Test Connection Button -->
+                    <div style="text-align: center; margin: 30px 0;">
+                        <button type="button" class="btn btn-secondary" style="display: inline-flex; align-items: center; gap: 10px;">
+                            <i class="fas fa-sync-alt"></i>
+                            Test Connection
+                        </button>
+                    </div>
+                    
+                    <!-- Skip Option -->
+                    <div style="text-align: center; margin-bottom: 30px;">
+                        <p style="color: var(--dark-gray); font-size: 14px;">
+                            Don't have your device yet? 
+                            <a href="4-store-selection.html" style="color: var(--primary-blue); text-decoration: none;">Skip for now</a>
+                        </p>
+                    </div>
+                    
+                    <!-- Buttons -->
+                    <div class="btn-group btn-group-space">
+                        <a href="2-registration.html" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i> Back
+                        </a>
+                        <a href="4-store-selection.html" class="btn btn-primary">
+                            Continue <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </form>
+                
+                <!-- Help Section -->
+                <div style="margin-top: 40px; padding-top: 30px; border-top: 1px solid var(--medium-gray); text-align: center;">
+                    <p style="color: var(--dark-gray); font-size: 14px;">
+                        Having trouble? 
+                        <a href="#" style="color: var(--primary-blue); text-decoration: none;">View setup guide</a> or 
+                        <a href="#" style="color: var(--primary-blue); text-decoration: none;">contact support</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 

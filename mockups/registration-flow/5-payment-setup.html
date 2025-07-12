@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GroceryAuto - Payment Setup</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="main-card">
+            <!-- Progress Bar -->
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 80%;"></div>
+                </div>
+                <div class="progress-steps">
+                    <div class="progress-step completed">
+                        <i class="fas fa-check"></i>
+                        <span>Account</span>
+                    </div>
+                    <div class="progress-step completed">
+                        <i class="fas fa-check"></i>
+                        <span>Device</span>
+                    </div>
+                    <div class="progress-step completed">
+                        <i class="fas fa-check"></i>
+                        <span>Store</span>
+                    </div>
+                    <div class="progress-step active">
+                        <i class="fas fa-credit-card"></i>
+                        <span>Payment</span>
+                    </div>
+                    <div class="progress-step">
+                        <i class="fas fa-check"></i>
+                        <span>Complete</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Card Header -->
+            <div class="card-header">
+                <div class="payment-icon">
+                    <i class="fas fa-credit-card"></i>
+                </div>
+                <h2 style="font-size: 28px; margin-bottom: 10px;">Set Up Payment Method</h2>
+                <p style="opacity: 0.9;">Add a payment method for automatic grocery orders</p>
+            </div>
+            
+            <!-- Card Body -->
+            <div class="card-body">
+                <!-- Mock Notice -->
+                <div class="mock-notice">
+                    <i class="fas fa-info-circle"></i>
+                    <div>
+                        <strong>This is a mock payment form</strong>
+                        <div style="font-size: 14px; margin-top: 2px;">For demonstration purposes only. No real payment information will be processed.</div>
+                    </div>
+                </div>
+                
+                <!-- Payment Method Selection -->
+                <h3 style="margin-bottom: 20px;">Select Payment Method</h3>
+                <div class="payment-methods">
+                    <div class="payment-method selected">
+                        <i class="fas fa-credit-card"></i>
+                        <div style="font-size: 14px; margin-top: 5px;">Credit Card</div>
+                    </div>
+                    <div class="payment-method">
+                        <i class="fas fa-university"></i>
+                        <div style="font-size: 14px; margin-top: 5px;">Debit Card</div>
+                    </div>
+                    <div class="payment-method">
+                        <i class="fab fa-paypal"></i>
+                        <div style="font-size: 14px; margin-top: 5px;">PayPal</div>
+                    </div>
+                    <div class="payment-method">
+                        <i class="fab fa-apple-pay"></i>
+                        <div style="font-size: 14px; margin-top: 5px;">Apple Pay</div>
+                    </div>
+                </div>
+                
+                <!-- Payment Form -->
+                <form style="margin-top: 30px;">
+                    <div class="form-group">
+                        <label class="form-label">
+                            Card Number <span class="required">*</span>
+                        </label>
+                        <div style="position: relative;">
+                            <input type="text" 
+                                   class="form-input" 
+                                   placeholder="1234 5678 9012 3456"
+                                   value="4242 4242 4242 4242"
+                                   style="padding-right: 120px;">
+                            <div style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); display: flex; gap: 5px;">
+                                <i class="fab fa-cc-visa" style="color: #1A1F71; font-size: 24px;"></i>
+                                <i class="fab fa-cc-mastercard" style="color: #EB001B; font-size: 24px;"></i>
+                                <i class="fab fa-cc-amex" style="color: #006FCF; font-size: 24px;"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">
+                            Cardholder Name <span class="required">*</span>
+                        </label>
+                        <input type="text" 
+                               class="form-input" 
+                               placeholder="John Doe"
+                               value="John Doe">
+                    </div>
+                    
+                    <div class="input-group">
+                        <div class="form-group">
+                            <label class="form-label">
+                                Expiry Date <span class="required">*</span>
+                            </label>
+                            <input type="text" 
+                                   class="form-input" 
+                                   placeholder="MM/YY"
+                                   value="12/27">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">
+                                CVV <span class="required">*</span>
+                            </label>
+                            <div style="position: relative;">
+                                <input type="text" 
+                                       class="form-input" 
+                                       placeholder="123"
+                                       value="123"
+                                       maxlength="3">
+                                <i class="fas fa-question-circle" 
+                                   style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); color: var(--dark-gray); cursor: pointer;"
+                                   title="3-digit security code on the back of your card"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Billing Address -->
+                    <h3 style="margin-top: 30px; margin-bottom: 20px;">Billing Address</h3>
+                    
+                    <div style="margin-bottom: 20px;">
+                        <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                            <input type="checkbox" checked>
+                            <span>Same as delivery address</span>
+                        </label>
+                    </div>
+                    
+                    <div style="background-color: var(--light-gray); border-radius: 8px; padding: 15px; margin-bottom: 30px;">
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <i class="fas fa-home" style="color: var(--primary-blue);"></i>
+                            <div>
+                                <div style="font-weight: 500;">123 Main Street, Apt 4B</div>
+                                <div style="font-size: 14px; color: var(--dark-gray);">San Francisco, CA 94105</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Security Notice -->
+                    <div style="background-color: rgba(76, 175, 80, 0.1); border: 1px solid var(--success-green); border-radius: 6px; padding: 15px; margin-bottom: 30px; display: flex; align-items: flex-start; gap: 10px;">
+                        <i class="fas fa-shield-alt" style="color: var(--success-green); margin-top: 2px;"></i>
+                        <div style="font-size: 14px;">
+                            <strong>Your payment information is secure</strong>
+                            <div style="margin-top: 5px; color: var(--dark-gray);">
+                                We use bank-level encryption to protect your payment details. Your card will only be charged when an order is placed.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Save for Later Option -->
+                    <div style="margin-bottom: 30px;">
+                        <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                            <input type="checkbox" checked>
+                            <span>Save this card for future orders</span>
+                        </label>
+                    </div>
+                    
+                    <!-- Skip Option -->
+                    <div style="text-align: center; margin-bottom: 30px;">
+                        <p style="color: var(--dark-gray); font-size: 14px;">
+                            Prefer to pay later? 
+                            <a href="6-dashboard.html" style="color: var(--primary-blue); text-decoration: none;">Skip for now</a>
+                            - you can add payment details anytime
+                        </p>
+                    </div>
+                    
+                    <!-- Buttons -->
+                    <div class="btn-group btn-group-space">
+                        <a href="4-store-selection.html" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i> Back
+                        </a>
+                        <a href="6-dashboard.html" class="btn btn-primary">
+                            Complete Setup <i class="fas fa-check"></i>
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 

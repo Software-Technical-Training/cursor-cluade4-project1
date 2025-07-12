@@ -112,4 +112,32 @@ This application will be getting status of groceries from a sensor that is in th
 - Added comment to REST registration endpoint showing required fields
 - Updated Data Flow Scenarios to show address is collected during registration and used for store selection
 - Updated sequence diagram to show all fields collected at registration
-- Clarified that store selection uses the address provided during registration 
+- Clarified that store selection uses the address provided during registration
+
+### Visual UX Mockups
+
+**User Prompt 12:**
+"No let me rephrase my question. Before we add any type of code , I wanted to see if you can provide some user experience mocks for how the web registration flow would look like ? Something like a figma UX design."
+
+**Response:** Created comprehensive HTML/CSS visual mockups for the entire registration flow:
+
+**Created Files:**
+1. `mockups/registration-flow/index.html` - Overview page with all mockup links
+2. `mockups/registration-flow/styles.css` - Professional CSS styling with modern design
+3. `mockups/registration-flow/1-landing.html` - Landing page with hero section and features
+4. `mockups/registration-flow/2-registration.html` - Complete registration form with all required fields
+5. `mockups/registration-flow/3-device-setup.html` - Device connection interface
+6. `mockups/registration-flow/4-store-selection.html` - Store selection with map view
+7. `mockups/registration-flow/5-payment-setup.html` - Mock payment setup form
+8. `mockups/registration-flow/6-dashboard.html` - Dashboard showing inventory and alerts
+
+**Design Features:**
+- Modern, clean interface with professional color scheme
+- Progress indicators showing registration steps
+- Form validation indicators
+- Responsive design
+- Interactive elements with hover effects
+- Google Maps placeholder for store selection
+- Mock data for demonstration
+- Success states and alerts
+- Dashboard with inventory monitoring 

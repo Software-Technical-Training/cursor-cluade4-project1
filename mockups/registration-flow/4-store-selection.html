@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GroceryAuto - Select Your Store</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="main-card" style="max-width: 800px;">
+            <!-- Progress Bar -->
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 60%;"></div>
+                </div>
+                <div class="progress-steps">
+                    <div class="progress-step completed">
+                        <i class="fas fa-check"></i>
+                        <span>Account</span>
+                    </div>
+                    <div class="progress-step completed">
+                        <i class="fas fa-check"></i>
+                        <span>Device</span>
+                    </div>
+                    <div class="progress-step active">
+                        <i class="fas fa-store"></i>
+                        <span>Store</span>
+                    </div>
+                    <div class="progress-step">
+                        <i class="fas fa-credit-card"></i>
+                        <span>Payment</span>
+                    </div>
+                    <div class="progress-step">
+                        <i class="fas fa-check"></i>
+                        <span>Complete</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Card Header -->
+            <div class="card-header">
+                <i class="fas fa-map-marked-alt" style="font-size: 48px; margin-bottom: 15px;"></i>
+                <h2 style="font-size: 28px; margin-bottom: 10px;">Choose Your Grocery Store</h2>
+                <p style="opacity: 0.9;">Select your preferred store for automatic orders</p>
+            </div>
+            
+            <!-- Card Body -->
+            <div class="card-body">
+                <!-- User Address Display -->
+                <div style="background-color: var(--light-gray); border-radius: 8px; padding: 15px; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between;">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <i class="fas fa-home" style="color: var(--primary-blue);"></i>
+                        <div>
+                            <div style="font-weight: 500;">Your Location</div>
+                            <div style="font-size: 14px; color: var(--dark-gray);">123 Main Street, Apt 4B, San Francisco, CA 94105</div>
+                        </div>
+                    </div>
+                    <button class="btn btn-secondary" style="padding: 8px 16px; font-size: 14px;">Change</button>
+                </div>
+                
+                <!-- Map Container -->
+                <div class="map-container">
+                    <div class="map-placeholder">
+                        <i class="fas fa-map" style="font-size: 48px; color: var(--medium-gray); margin-bottom: 10px;"></i>
+                        <p>Google Maps View</p>
+                        <p style="font-size: 14px;">Showing 5 nearest grocery stores</p>
+                    </div>
+                    <!-- Map markers would be positioned absolutely -->
+                    <div style="position: absolute; top: 30%; left: 40%; background: var(--primary-green); color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;">1</div>
+                    <div style="position: absolute; top: 50%; left: 20%; background: var(--primary-blue); color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;">2</div>
+                    <div style="position: absolute; top: 60%; left: 60%; background: var(--primary-blue); color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;">3</div>
+                    <div style="position: absolute; top: 25%; left: 70%; background: var(--primary-blue); color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;">4</div>
+                    <div style="position: absolute; top: 70%; left: 35%; background: var(--primary-blue); color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;">5</div>
+                </div>
+                
+                <!-- Store List -->
+                <h3 style="margin-top: 30px; margin-bottom: 20px;">Select a Store</h3>
+                <div class="store-list">
+                    <!-- Store 1 - Selected -->
+                    <div class="store-card selected">
+                        <div class="store-header">
+                            <div>
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <div style="background: var(--primary-green); color: white; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold;">1</div>
+                                    <h4 class="store-name">Whole Foods Market</h4>
+                                </div>
+                            </div>
+                            <span class="store-distance">0.8 mi</span>
+                        </div>
+                        <p class="store-address">399 4th Street, San Francisco, CA 94107</p>
+                        <p class="store-hours">Open until 10:00 PM • Delivery available</p>
+                        <div style="display: flex; align-items: center; gap: 15px; margin-top: 10px; font-size: 14px;">
+                            <span style="color: var(--success-green);"><i class="fas fa-check"></i> Organic options</span>
+                            <span style="color: var(--success-green);"><i class="fas fa-check"></i> Same-day delivery</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Store 2 -->
+                    <div class="store-card">
+                        <div class="store-header">
+                            <div>
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <div style="background: var(--primary-blue); color: white; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold;">2</div>
+                                    <h4 class="store-name">Trader Joe's</h4>
+                                </div>
+                            </div>
+                            <span class="store-distance">1.2 mi</span>
+                        </div>
+                        <p class="store-address">555 9th Street, San Francisco, CA 94103</p>
+                        <p class="store-hours">Open until 9:00 PM • Delivery available</p>
+                    </div>
+                    
+                    <!-- Store 3 -->
+                    <div class="store-card">
+                        <div class="store-header">
+                            <div>
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <div style="background: var(--primary-blue); color: white; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold;">3</div>
+                                    <h4 class="store-name">Safeway</h4>
+                                </div>
+                            </div>
+                            <span class="store-distance">1.5 mi</span>
+                        </div>
+                        <p class="store-address">145 Jackson Street, San Francisco, CA 94111</p>
+                        <p class="store-hours">Open 24 hours • Delivery available</p>
+                    </div>
+                    
+                    <!-- Store 4 -->
+                    <div class="store-card">
+                        <div class="store-header">
+                            <div>
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <div style="background: var(--primary-blue); color: white; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold;">4</div>
+                                    <h4 class="store-name">Target</h4>
+                                </div>
+                            </div>
+                            <span class="store-distance">2.1 mi</span>
+                        </div>
+                        <p class="store-address">789 Mission Street, San Francisco, CA 94103</p>
+                        <p class="store-hours">Open until 11:00 PM • Delivery available</p>
+                    </div>
+                    
+                    <!-- Store 5 -->
+                    <div class="store-card">
+                        <div class="store-header">
+                            <div>
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <div style="background: var(--primary-blue); color: white; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold;">5</div>
+                                    <h4 class="store-name">Costco</h4>
+                                </div>
+                            </div>
+                            <span class="store-distance">3.2 mi</span>
+                        </div>
+                        <p class="store-address">450 10th Street, San Francisco, CA 94103</p>
+                        <p class="store-hours">Open until 8:30 PM • Bulk delivery available</p>
+                    </div>
+                </div>
+                
+                <!-- Buttons -->
+                <div class="btn-group btn-group-space" style="margin-top: 40px;">
+                    <a href="3-device-setup.html" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left"></i> Back
+                    </a>
+                    <a href="5-payment-setup.html" class="btn btn-primary">
+                        Continue <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+                
+                <!-- Additional Info -->
+                <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid var(--medium-gray);">
+                    <p style="color: var(--dark-gray); font-size: 14px;">
+                        Can't find your preferred store? 
+                        <a href="#" style="color: var(--primary-blue); text-decoration: none;">Request a new store</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 
