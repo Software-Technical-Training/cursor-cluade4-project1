@@ -1,0 +1,23 @@
+# Custom Instructions for POC Grocery Automation Project
+
+## Project Context
+This is a POC application that receives grocery data from a fridge sensor and automatically places grocery orders for delivery.
+
+## Development Guidelines
+[Add your custom instructions here]
+
+## Technical Stack
+[Specify your preferred technologies, frameworks, etc.]
+
+## Code Style
+[Add any code style preferences]
+
+## Architecture Patterns
+[Specify any architectural patterns to follow]
+
+## Testing Requirements
+[Add testing guidelines]
+
+## Other Instructions
+1. Always save my prompts and your summary in a markdown file when working on this project
+2. Do not make any updates till I specifically ask. Always plan first and then execute 
