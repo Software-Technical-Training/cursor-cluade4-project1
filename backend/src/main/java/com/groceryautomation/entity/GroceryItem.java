@@ -38,14 +38,13 @@ public class GroceryItem {
     @Column(unique = true)
     private String barcode;
     
+    @NotBlank(message = "SKU is required")
+    @Column(nullable = false, unique = true, length = 50)
+    private String sku; // Universal SKU for store APIs
+    
     private String brand;
     
     private String imageUrl;
-    
-    @Positive(message = "Price must be positive")
-    @Column(nullable = false)
-    @Builder.Default
-    private Double price = 0.0;
     
     // Default threshold for low stock alerts
     @Positive(message = "Default threshold must be positive")

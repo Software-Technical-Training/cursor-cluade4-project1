@@ -20,6 +20,8 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     
     Page<Order> findByUserId(Long userId, Pageable pageable);
     
+    List<Order> findByUserId(Long userId);
+    
     List<Order> findByUserIdAndStatus(Long userId, OrderStatus status);
     
     List<Order> findByStoreId(Long storeId);
@@ -37,4 +39,22 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     Long countByUserIdAndStatus(@Param("userId") Long userId, @Param("status") OrderStatus status);
     
     boolean existsByOrderNumber(String orderNumber);
+    
+    @Query("SELECT o FROM Order o WHERE o.user.id = :userId AND o.status IN ('DRAFT', 'USER_MODIFIED') ORDER BY o.createdAt DESC")
+    List<Order> findDraftOrdersByUserId(@Param("userId") Long userId);
+    
+    @Query("SELECT o FROM Order o WHERE o.status = 'DRAFT' AND o.notificationSent = false")
+    List<Order> findUnnotifiedDraftOrders();
+    
+    @Query("SELECT o FROM Order o WHERE o.user.id = :userId AND o.status NOT IN ('DRAFT', 'USER_MODIFIED') ORDER BY o.createdAt DESC")
+    List<Order> findOrderHistoryByUserId(@Param("userId") Long userId);
+    
+    @Query("SELECT o FROM Order o WHERE o.externalOrderId = :externalOrderId")
+    Optional<Order> findByExternalOrderId(@Param("externalOrderId") String externalOrderId);
+    
+    @Query("SELECT o FROM Order o WHERE o.status = 'SUBMITTED' AND o.updatedAt < :cutoffTime")
+    List<Order> findStaleSubmittedOrders(@Param("cutoffTime") LocalDateTime cutoffTime);
+    
+    @Query("SELECT COUNT(o) FROM Order o WHERE o.user.id = :userId AND o.status IN ('DRAFT', 'USER_MODIFIED')")
+    Long countDraftOrdersByUserId(@Param("userId") Long userId);
 } 

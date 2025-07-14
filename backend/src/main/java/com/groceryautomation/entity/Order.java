@@ -1,5 +1,7 @@
 package com.groceryautomation.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.groceryautomation.enums.OrderStatus;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -40,12 +42,13 @@ public class Order {
     
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @Builder.Default
+    @JsonManagedReference
     private List<OrderItem> items = new ArrayList<>();
     
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     @Builder.Default
-    private OrderStatus status = OrderStatus.PENDING;
+    private OrderStatus status = OrderStatus.DRAFT;
     
     @NotNull(message = "Subtotal is required")
     @Positive(message = "Subtotal must be positive")
@@ -66,6 +69,22 @@ public class Order {
     @Column(nullable = false)
     @Builder.Default
     private Double totalAmount = 0.0;
+    
+    // Draft order pricing information
+    private Double estimatedTotal;  // Initial estimate when draft created
+    private Double finalTotal;      // After user modifications
+    
+    // Timestamps for order lifecycle
+    private LocalDateTime draftCreatedAt;
+    private LocalDateTime userReviewedAt;
+    private LocalDateTime submittedAt;
+    
+    // External order ID from store's system
+    private String externalOrderId;
+    
+    // Notification sent flag
+    @Builder.Default
+    private boolean notificationSent = false;
     
     // Delivery information
     @Column(length = 500)
@@ -101,10 +120,13 @@ public class Order {
     @PrePersist
     @PreUpdate
     public void calculateTotals() {
-        this.subtotal = items.stream()
-            .mapToDouble(item -> item.getQuantity() * item.getPrice())
-            .sum();
-        this.tax = this.subtotal * 0.08; // 8% tax for POC
-        this.totalAmount = this.subtotal + this.deliveryFee + this.tax;
+        // Only recalculate if we have items, otherwise preserve explicitly set values
+        if (items != null && !items.isEmpty()) {
+            this.subtotal = items.stream()
+                .mapToDouble(item -> item.getQuantity() * item.getPrice())
+                .sum();
+            this.tax = this.subtotal * 0.08; // 8% tax for POC
+            this.totalAmount = this.subtotal + this.deliveryFee + this.tax;
+        }
     }
 } 

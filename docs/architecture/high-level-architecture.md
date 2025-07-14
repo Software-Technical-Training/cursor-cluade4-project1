@@ -87,7 +87,11 @@ src/main/java/com/groceryautomation/
 │   ├── Device.java
 │   ├── Store.java
 │   ├── Order.java
-│   └── GroceryItem.java
+│   ├── OrderItem.java
+│   ├── GroceryItem.java
+│   ├── Inventory.java
+│   ├── UserStore.java
+│   └── Notification.java
 ├── dto/
 │   ├── UserDTO.java
 │   ├── SensorDataDTO.java
@@ -145,24 +149,43 @@ CREATE TABLE stores (
     latitude DECIMAL(10, 8),
     longitude DECIMAL(11, 8),
     phone VARCHAR(20),
-    api_endpoint VARCHAR(255)
+    email VARCHAR(255),
+    google_place_id VARCHAR(255) UNIQUE,
+    opening_time TIME,
+    closing_time TIME,
+    active BOOLEAN DEFAULT true,
+    accepting_orders BOOLEAN DEFAULT true,
+    has_delivery BOOLEAN DEFAULT true,
+    has_pickup BOOLEAN DEFAULT true,
+    delivery_fee DECIMAL(10, 2),
+    minimum_order_amount DECIMAL(10, 2)
 );
 
--- User store preferences
+-- User store preferences with enhanced fields
 CREATE TABLE user_stores (
+    id UUID PRIMARY KEY,
     user_id UUID REFERENCES users(id),
     store_id UUID REFERENCES stores(id),
+    priority INTEGER NOT NULL DEFAULT 1,
     is_primary BOOLEAN DEFAULT false,
-    PRIMARY KEY (user_id, store_id)
+    max_delivery_fee DECIMAL(10, 2),
+    active BOOLEAN DEFAULT true,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(user_id, priority)
 );
 
--- Grocery items master list
+-- Grocery items master list with SKU
 CREATE TABLE grocery_items (
     id UUID PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     category VARCHAR(100),
     unit VARCHAR(50),
-    barcode VARCHAR(255)
+    barcode VARCHAR(255),
+    sku VARCHAR(100) UNIQUE,
+    brand VARCHAR(255),
+    description TEXT,
+    default_threshold DECIMAL(10, 2),
+    active BOOLEAN DEFAULT true
 );
 
 -- Current inventory (from sensor)
@@ -175,24 +198,65 @@ CREATE TABLE inventory (
     last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Orders table
+-- Orders table with enhanced status tracking
 CREATE TABLE orders (
     id UUID PRIMARY KEY,
+    order_number VARCHAR(255) UNIQUE NOT NULL,
     user_id UUID REFERENCES users(id),
     store_id UUID REFERENCES stores(id),
-    status VARCHAR(50),
+    status VARCHAR(50) NOT NULL, -- DRAFT, USER_MODIFIED, SUBMITTED, CONFIRMED, etc.
+    subtotal DECIMAL(10, 2),
+    delivery_fee DECIMAL(10, 2),
+    tax DECIMAL(10, 2),
     total_amount DECIMAL(10, 2),
+    estimated_total DECIMAL(10, 2),
+    final_total DECIMAL(10, 2),
+    draft_created_at TIMESTAMP,
+    user_reviewed_at TIMESTAMP,
+    submitted_at TIMESTAMP,
+    external_order_id VARCHAR(255),
+    notification_sent BOOLEAN DEFAULT false,
+    delivery_address TEXT,
+    delivery_instructions TEXT,
+    scheduled_delivery_time TIMESTAMP,
+    actual_delivery_time TIMESTAMP,
+    payment_method VARCHAR(100),
+    tracking_number VARCHAR(255),
+    delivery_person_name VARCHAR(255),
+    delivery_person_phone VARCHAR(50),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    delivered_at TIMESTAMP
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Order items
+-- Order items with price tracking
 CREATE TABLE order_items (
     id UUID PRIMARY KEY,
     order_id UUID REFERENCES orders(id),
     item_id UUID REFERENCES grocery_items(id),
     quantity DECIMAL(10, 2),
-    price DECIMAL(10, 2)
+    price DECIMAL(10, 2),
+    price_at_creation DECIMAL(10, 2),
+    current_price DECIMAL(10, 2),
+    user_removed BOOLEAN DEFAULT false,
+    price_changed BOOLEAN DEFAULT false,
+    quantity_modified BOOLEAN DEFAULT false,
+    original_quantity DECIMAL(10, 2),
+    subtotal DECIMAL(10, 2),
+    notes TEXT
+);
+
+-- Notifications table
+CREATE TABLE notifications (
+    id UUID PRIMARY KEY,
+    user_id UUID REFERENCES users(id),
+    type VARCHAR(50) NOT NULL,
+    title VARCHAR(255),
+    message TEXT,
+    data JSONB,
+    read BOOLEAN DEFAULT false,
+    sent_at TIMESTAMP,
+    read_at TIMESTAMP,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 ```
 
@@ -339,16 +403,23 @@ PUT    /api/inventory/thresholds
 ```
 GET    /api/stores/nearby?lat={lat}&lng={lng}&radius={radius}
 GET    /api/stores/{id}
-POST   /api/stores/select
+POST   /api/stores/select                    # Legacy endpoint
+POST   /api/stores/user/{userId}/select-store # New endpoint accepting store details from Google Maps
+GET    /api/stores/user/{userId}             # Get user's selected stores
 ```
 
 #### Order Management
 ```
-GET    /api/orders
-GET    /api/orders/{id}
-POST   /api/orders/create
-PUT    /api/orders/{id}/cancel
-GET    /api/orders/history
+GET    /api/orders                           # Get all orders
+GET    /api/orders/{id}                     # Get specific order details
+GET    /api/orders/user/{userId}            # Get user's orders with optional status filter
+GET    /api/orders/drafts/user/{userId}     # Get draft orders needing approval
+GET    /api/orders/history/user/{userId}    # Get past order history
+GET    /api/orders/count/drafts/user/{userId} # Count pending approvals
+POST   /api/orders/{orderId}/approve        # Approve draft order
+POST   /api/orders/create                   # Legacy create order
+PUT    /api/orders/{id}/cancel              # Cancel order
+DELETE /api/orders/{id}                     # Delete draft order
 ```
 
 ### API Response Format
@@ -538,12 +609,15 @@ enum InventoryStatus {
 }
 
 enum OrderStatus {
-    PENDING
+    DRAFT
+    USER_MODIFIED
+    SUBMITTED
     CONFIRMED
     PREPARING
     OUT_FOR_DELIVERY
     DELIVERED
     CANCELLED
+    FAILED
 }
 
 enum AlertType {

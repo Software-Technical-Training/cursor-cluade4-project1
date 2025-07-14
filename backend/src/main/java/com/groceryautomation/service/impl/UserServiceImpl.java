@@ -118,7 +118,7 @@ public class UserServiceImpl implements UserService {
     }
     
     private UserResponse mapToUserResponse(User user) {
-        Long activeOrderCount = orderRepository.countByUserIdAndStatus(user.getId(), OrderStatus.PENDING);
+        Long activeOrderCount = orderRepository.countByUserIdAndStatus(user.getId(), OrderStatus.DRAFT);
         
         return UserResponse.builder()
                 .id(user.getId())
@@ -133,8 +133,8 @@ public class UserServiceImpl implements UserService {
                 .updatedAt(user.getUpdatedAt())
                 .deviceCount(user.getDevices() != null ? user.getDevices().size() : 0)
                 .activeOrderCount(activeOrderCount != null ? activeOrderCount.intValue() : 0)
-                .selectedStoreId(user.getSelectedStore() != null ? user.getSelectedStore().getId() : null)
-                .selectedStoreName(user.getSelectedStore() != null ? user.getSelectedStore().getName() : null)
+                .selectedStoreId(user.getPrimaryStore() != null ? user.getPrimaryStore().getId() : null)
+                .selectedStoreName(user.getPrimaryStore() != null ? user.getPrimaryStore().getName() : null)
                 .build();
     }
 } 

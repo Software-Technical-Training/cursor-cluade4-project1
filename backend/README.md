@@ -84,17 +84,77 @@ curl -X POST http://localhost:8080/api/users/register \
 curl http://localhost:8080/api/users/1
 ```
 
-### 3. Get Current Inventory
+### 3. Register a Device for User
+```bash
+curl -X POST http://localhost:8080/api/devices/register \
+  -H "Content-Type: application/json" \
+  -d '{
+    "deviceId": "FRIDGE-002",
+    "userId": 1,
+    "name": "Kitchen Smart Fridge"
+  }'
+```
+
+### 4. Get User Devices
+```bash
+curl http://localhost:8080/api/devices/user/1
+```
+
+### 5. Get Device by Device ID
+```bash
+# ✅ CORRECT - Use the deviceId string:
+curl http://localhost:8080/api/devices/FRIDGE-001
+
+# ❌ WRONG - Don't use the numeric database ID:
+# curl http://localhost:8080/api/devices/1
+```
+
+### 6. Update Device Status
+```bash
+curl -X PUT "http://localhost:8080/api/devices/FRIDGE-001/status?online=false"
+```
+
+### 7. Get Current Inventory
 ```bash
 curl http://localhost:8080/api/inventory/current/1
 ```
 
-### 4. Get Inventory Alerts (Low Stock Items)
+### 8. Get Inventory Alerts (Low Stock Items)
 ```bash
 curl http://localhost:8080/api/inventory/alerts/1
 ```
 
-### 5. Get All Users
+### 9. Find Nearby Stores
+```bash
+# Find 5 stores within 5 miles of John Doe's location
+curl "http://localhost:8080/api/stores/nearby?latitude=37.7749&longitude=-122.4194&radius=5.0&limit=5"
+```
+
+### 10. Add a Store for User (Multi-Store Support)
+```bash
+# Add store as primary (priority=1)
+curl -X POST http://localhost:8080/api/stores/user/1/stores \
+  -H "Content-Type: application/json" \
+  -d '{
+    "storeId": 2,
+    "priority": 1,
+    "maxDeliveryFee": 10.00,
+    "maxDistanceMiles": 5.0
+  }'
+
+# Get all stores for user
+curl http://localhost:8080/api/stores/user/1/stores
+
+# Set different store as primary
+curl -X PUT http://localhost:8080/api/stores/user/1/stores/3/set-primary
+```
+
+### 11. Get All Stores
+```bash
+curl http://localhost:8080/api/stores
+```
+
+### 12. Get All Users
 ```bash
 curl http://localhost:8080/api/users
 ```

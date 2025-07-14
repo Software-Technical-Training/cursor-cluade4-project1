@@ -1,5 +1,6 @@
 package com.groceryautomation.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -41,6 +42,10 @@ public class Store {
     
     private String email;
     
+    // Google Place ID to avoid duplicates
+    @Column(unique = true)
+    private String googlePlaceId;
+    
     // Store hours
     private LocalTime openingTime;
     private LocalTime closingTime;
@@ -55,12 +60,14 @@ public class Store {
     @Transient
     private Double distanceInMiles;
     
-    @OneToMany(mappedBy = "selectedStore", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "store", fetch = FetchType.LAZY)
     @Builder.Default
-    private List<User> users = new ArrayList<>();
+    @JsonIgnore
+    private List<UserStore> userStores = new ArrayList<>();
     
     @OneToMany(mappedBy = "store", fetch = FetchType.LAZY)
     @Builder.Default
+    @JsonIgnore
     private List<Order> orders = new ArrayList<>();
     
     // Store capabilities

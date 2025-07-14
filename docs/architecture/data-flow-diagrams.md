@@ -120,17 +120,27 @@ sequenceDiagram
     W->>U: Show store selection
     
     Note over U,REDIS: Setup Phase - Store Selection
-    W->>API: GET /api/stores/nearby (using user's address)
-    API->>DB: Fetch user address
-    API->>MAPS: Get nearby stores based on address
-    MAPS-->>API: Store locations
-    API->>DB: Fetch store details
-    API-->>W: List of up to 5 stores
-    W->>U: Display stores on Google Maps
-    U->>W: Select preferred store
-    W->>API: POST /api/stores/select
-    API->>DB: Save user preference
-    API-->>W: Store selected
+    W->>U: Show map with store search
+    U->>W: Search for stores on Google Maps
+    W->>MAPS: Search nearby grocery stores
+    MAPS-->>W: Store results with Google Place data
+    W->>U: Display stores on map
+    U->>W: Select primary store from map
+    W->>API: POST /api/stores/user/{userId}/select-store
+    Note right of API: Includes store details from Google
+    API->>DB: Check if store exists by googlePlaceId
+    API->>DB: Create store if not exists
+    API->>DB: Link store to user with priority 1
+    API-->>W: Primary store selected
+    
+    Note over U,REDIS: Backup Store Selection (Required)
+    W->>U: Prompt for backup store selection
+    U->>W: Select backup store from map
+    W->>API: POST /api/stores/user/{userId}/select-store
+    Note right of API: Priority = 2 for backup
+    API->>DB: Check/Create store
+    API->>DB: Link as backup store
+    API-->>W: Backup store selected
     
     Note over U,REDIS: Setup Phase - Payment (Mock)
     W->>U: Show payment form
@@ -191,40 +201,53 @@ graph LR
     style NOTIF fill:#42A5F5
 ```
 
-## 4. Automatic Order Processing Flow
+## 4. Draft Order Processing Flow
 
 ```mermaid
 stateDiagram-v2
     [*] --> LowStockDetected
-    LowStockDetected --> CheckUserPreferences
-    CheckUserPreferences --> AutoOrderEnabled: Enabled
-    CheckUserPreferences --> SendNotification: Disabled
+    LowStockDetected --> CreateDraftOrder
     
-    AutoOrderEnabled --> PrepareOrder
-    PrepareOrder --> CalculateQuantities
-    CalculateQuantities --> CheckStoreAPI
-    CheckStoreAPI --> ItemsAvailable: Available
-    CheckStoreAPI --> ItemsUnavailable: Not Available
+    CreateDraftOrder --> FetchRealTimePrices
+    FetchRealTimePrices --> StoreAPICall
+    StoreAPICall --> PricesReceived: Success
+    StoreAPICall --> UseBackupStore: Primary Store Unavailable
     
-    ItemsAvailable --> CreateOrder
-    ItemsUnavailable --> NotifyUser
+    UseBackupStore --> FetchBackupPrices
+    FetchBackupPrices --> PricesReceived
     
-    CreateOrder --> ProcessPayment
-    ProcessPayment --> PaymentSuccess: Mock Success
-    ProcessPayment --> PaymentFailed: Mock Failure
+    PricesReceived --> GenerateDraftOrder
+    GenerateDraftOrder --> SaveDraftOrder
+    SaveDraftOrder --> SendNotification
     
-    PaymentSuccess --> UpdateInventory
-    UpdateInventory --> SendConfirmation
-    SendConfirmation --> UpdateDashboard
-    UpdateDashboard --> [*]
+    SendNotification --> UserReviewsPending
     
-    PaymentFailed --> NotifyUser
-    SendNotification --> UserAction
-    UserAction --> ManualOrder: User Orders
-    UserAction --> Dismiss: User Dismisses
-    ManualOrder --> CreateOrder
-    Dismiss --> [*]
-    NotifyUser --> [*]
+    UserReviewsPending --> UserReviews: User Opens App
+    UserReviewsPending --> ReminderSent: After 24 hours
+    ReminderSent --> UserReviews
+    
+    UserReviews --> UserModifies: Makes Changes
+    UserReviews --> UserApproves: No Changes
+    UserReviews --> UserCancels: Rejects Order
+    
+    UserModifies --> UpdateOrderStatus[USER_MODIFIED]
+    UpdateOrderStatus --> UserApproves
+    
+    UserApproves --> SubmitToStore
+    SubmitToStore --> StoreConfirms: Success
+    SubmitToStore --> OrderFailed: Store Rejects
+    
+    StoreConfirms --> OrderStatus[CONFIRMED]
+    OrderStatus --> PrepareOrder
+    PrepareOrder --> OutForDelivery
+    OutForDelivery --> Delivered
+    Delivered --> [*]
+    
+    OrderFailed --> NotifyUserFailure
+    NotifyUserFailure --> [*]
+    
+    UserCancels --> OrderCancelled
+    OrderCancelled --> [*]
 ```
 
 ## 5. Dashboard Data Flow
@@ -292,6 +315,7 @@ erDiagram
     USERS ||--o{ DEVICES : owns
     USERS ||--o{ USER_STORES : selects
     USERS ||--o{ ORDERS : places
+    USERS ||--o{ NOTIFICATIONS : receives
     
     DEVICES ||--o{ INVENTORY : monitors
     
@@ -310,8 +334,11 @@ erDiagram
         string name
         string phone
         text address
+        decimal latitude
+        decimal longitude
         timestamp created_at
         timestamp updated_at
+        boolean active
     }
     
     DEVICES {
@@ -320,6 +347,7 @@ erDiagram
         uuid user_id FK
         string name
         string status
+        string location
         timestamp last_sync
         timestamp created_at
     }
@@ -331,13 +359,27 @@ erDiagram
         decimal latitude
         decimal longitude
         string phone
-        string api_endpoint
+        string email
+        string google_place_id UK
+        time opening_time
+        time closing_time
+        boolean active
+        boolean accepting_orders
+        boolean has_delivery
+        boolean has_pickup
+        decimal delivery_fee
+        decimal minimum_order_amount
     }
     
     USER_STORES {
+        uuid id PK
         uuid user_id FK
         uuid store_id FK
+        integer priority
         boolean is_primary
+        decimal max_delivery_fee
+        boolean active
+        timestamp created_at
     }
     
     GROCERY_ITEMS {
@@ -346,6 +388,11 @@ erDiagram
         string category
         string unit
         string barcode
+        string sku UK
+        string brand
+        text description
+        decimal default_threshold
+        boolean active
     }
     
     INVENTORY {
@@ -359,12 +406,31 @@ erDiagram
     
     ORDERS {
         uuid id PK
+        string order_number UK
         uuid user_id FK
         uuid store_id FK
         string status
+        decimal subtotal
+        decimal delivery_fee
+        decimal tax
         decimal total_amount
+        decimal estimated_total
+        decimal final_total
+        timestamp draft_created_at
+        timestamp user_reviewed_at
+        timestamp submitted_at
+        string external_order_id
+        boolean notification_sent
+        text delivery_address
+        text delivery_instructions
+        timestamp scheduled_delivery_time
+        timestamp actual_delivery_time
+        string payment_method
+        string tracking_number
+        string delivery_person_name
+        string delivery_person_phone
         timestamp created_at
-        timestamp delivered_at
+        timestamp updated_at
     }
     
     ORDER_ITEMS {
@@ -373,6 +439,27 @@ erDiagram
         uuid item_id FK
         decimal quantity
         decimal price
+        decimal price_at_creation
+        decimal current_price
+        boolean user_removed
+        boolean price_changed
+        boolean quantity_modified
+        decimal original_quantity
+        decimal subtotal
+        text notes
+    }
+    
+    NOTIFICATIONS {
+        uuid id PK
+        uuid user_id FK
+        string type
+        string title
+        text message
+        jsonb data
+        boolean read
+        timestamp sent_at
+        timestamp read_at
+        timestamp created_at
     }
 ```
 

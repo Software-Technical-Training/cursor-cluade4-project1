@@ -10,7 +10,12 @@ This is a POC application that receives grocery data from a fridge sensor and au
 [Specify your preferred technologies, frameworks, etc.]
 
 ## Code Style
-[Add any code style preferences]
+- Follow SOLID principles in all code implementations:
+  - Single Responsibility Principle: Each class should have one reason to change
+  - Open/Closed Principle: Classes should be open for extension but closed for modification
+  - Liskov Substitution Principle: Derived classes must be substitutable for their base classes
+  - Interface Segregation Principle: Many client-specific interfaces are better than one general-purpose interface
+  - Dependency Inversion Principle: Depend on abstractions, not concretions
 
 ## Architecture Patterns
 [Specify any architectural patterns to follow]
@@ -23,4 +28,10 @@ This is a POC application that receives grocery data from a fridge sensor and au
    - Save user prompts EXACTLY as provided - do not condense or summarize them
    - Include the full, unedited text of each user prompt
    - EXCEPTION: Do not save prompts that are solely about git operations (pushing, committing, status checks, etc.)
-2. Do not make any updates till I specifically ask. Always plan first and then execute 
+   - IMPORTANT: Consolidate all conversations into the appropriate phase master file (e.g., phase1-conversation-master.md)
+   - Do NOT create separate conversation files - always append to the existing master file
+2. Do not make any updates till I specifically ask. Always plan first and then execute
+3. When making code changes:
+   - Only compile the code to verify it builds successfully (`mvn compile`)
+   - Do NOT run the server automatically (`mvn spring-boot:run`)
+   - Wait for explicit instruction before starting the application 

@@ -1,5 +1,6 @@
 package com.groceryautomation.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -38,6 +39,7 @@ public class User {
     
     @NotBlank(message = "Password is required")
     @Column(nullable = false)
+    @JsonIgnore
     private String password;
     
     @NotBlank(message = "Phone is required")
@@ -55,14 +57,18 @@ public class User {
     
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @Builder.Default
+    @JsonIgnore
     private List<Device> devices = new ArrayList<>();
     
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "selected_store_id")
-    private Store selectedStore;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OrderBy("priority ASC")
+    @Builder.Default
+    @JsonIgnore
+    private List<UserStore> userStores = new ArrayList<>();
     
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @Builder.Default
+    @JsonIgnore
     private List<Order> orders = new ArrayList<>();
     
     @CreationTimestamp
@@ -73,5 +79,38 @@ public class User {
     @Column(nullable = false)
     private LocalDateTime updatedAt;
     
+    @Builder.Default
     private boolean active = true;
+    
+    // Helper method to get primary store
+    @JsonIgnore
+    public Store getPrimaryStore() {
+        return userStores.stream()
+                .filter(UserStore::isActive)
+                .filter(UserStore::isPrimary)
+                .map(UserStore::getStore)
+                .findFirst()
+                .orElse(null);
+    }
+    
+    // Helper method to get backup store (priority = 2)
+    @JsonIgnore
+    public Store getBackupStore() {
+        return userStores.stream()
+                .filter(UserStore::isActive)
+                .filter(us -> us.getPriority() == 2)
+                .map(UserStore::getStore)
+                .findFirst()
+                .orElse(null);
+    }
+    
+    // Helper method to get all active stores ordered by priority
+    @JsonIgnore
+    public List<Store> getActiveStores() {
+        return userStores.stream()
+                .filter(UserStore::isActive)
+                .sorted((a, b) -> a.getPriority().compareTo(b.getPriority()))
+                .map(UserStore::getStore)
+                .collect(java.util.stream.Collectors.toList());
+    }
 } 
