@@ -21,7 +21,118 @@ This is a POC application that receives grocery data from a fridge sensor and au
 [Specify any architectural patterns to follow]
 
 ## Testing Requirements
-[Add testing guidelines]
+
+We will use Mockito and JUnit5 for unit and component testing.
+
+### Critical Rules
+Essential patterns for testing:
+
+1. **Core Principles**
+   - Follow Arrange/Act/Assert pattern
+   - One assertion concept per test
+   - Use descriptive test names
+   - Keep tests independent
+
+2. **Quick Reference**
+   ```java
+   @Test
+   void shouldReturnUserWhenValidIdProvided() {
+       // Arrange
+       final String userId = "123";
+       when(userRepo.findById(userId)).thenReturn(Optional.of(new User()));
+       
+       // Act
+       final User result = userService.getUser(userId);
+       
+       // Assert
+       assertThat(result).isNotNull();
+   }
+   ```
+
+### Examples
+Implementation patterns and code samples:
+
+#### Unit Test Pattern
+```java
+@ExtendWith(MockitoExtension.class)
+class UserServiceTest {
+    @Mock
+    private UserRepository userRepo;
+    
+    @InjectMocks
+    private UserService userService;
+    
+    @Test
+    void shouldThrowExceptionWhenUserNotFound() {
+        // Arrange
+        final String userId = "invalid";
+        when(userRepo.findById(userId)).thenReturn(Optional.empty());
+        
+        // Act & Assert
+        assertThrows(UserNotFoundException.class,
+            () -> userService.getUser(userId));
+    }
+}
+```
+
+#### Integration Test Pattern
+```java
+@SpringBootTest
+class UserIntegrationTest {
+    @Autowired
+    private UserService userService;
+    
+    @Test
+    void shouldSaveAndRetrieveUser() {
+        // Arrange
+        final User user = new User("test@email.com");
+        
+        // Act
+        final User saved = userService.save(user);
+        final User retrieved = userService.getUser(saved.getId());
+        
+        // Assert
+        assertThat(retrieved)
+            .usingRecursiveComparison()
+            .isEqualTo(saved);
+    }
+}
+```
+
+### Advanced Patterns
+
+#### Test Categories
+- Unit Tests (isolated)
+- Integration Tests (with dependencies)
+- Performance Tests
+- Security Tests
+
+#### Test Data Management
+- Use test factories
+- Manage test data lifecycle
+- Clean up after tests
+- Use appropriate test profiles
+
+#### Testing Best Practices
+- Mock external dependencies
+- Use appropriate assertions
+- Handle async operations
+- Test edge cases
+
+#### Common Patterns
+- Builder pattern for test data
+- Test fixtures
+- Parameterized tests
+- Custom assertions
+
+### Best Practices Checklist
+Quick verification list for reviews:
+- [ ] Tests are independent
+- [ ] Mocks used appropriately
+- [ ] Edge cases covered
+- [ ] Clear test names
+- [ ] Proper assertions used
+- [ ] Test data cleaned up
 
 ## Other Instructions
 1. Always save my prompts and your summary in a markdown file when working on this project
