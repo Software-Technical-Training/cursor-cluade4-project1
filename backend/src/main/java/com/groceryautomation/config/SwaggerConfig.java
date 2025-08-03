@@ -19,6 +19,10 @@ public class SwaggerConfig {
         localServer.setUrl("http://localhost:8080");
         localServer.setDescription("Local Development Server");
         
+        Server cloudRunServer = new Server();
+        cloudRunServer.setUrl("https://backend-952204582614.us-west2.run.app");
+        cloudRunServer.setDescription("Cloud Run Server");
+        
         Server productionServer = new Server();
         productionServer.setUrl("https://api.groceryautomation.com");
         productionServer.setDescription("Production Server (Future)");
@@ -41,6 +45,6 @@ public class SwaggerConfig {
         
         return new OpenAPI()
                 .info(info)
-                .servers(List.of(localServer, productionServer));
+                .servers(List.of(cloudRunServer, localServer, productionServer));
     }
 } 

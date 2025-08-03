@@ -62,3 +62,7 @@ Thumbs.db
 *.log
 logs/
 temp/
+
+# GCP Service Account Keys
+*.json
+grocery-automation-*.json
