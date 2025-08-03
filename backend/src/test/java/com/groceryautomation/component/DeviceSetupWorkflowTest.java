@@ -74,9 +74,10 @@ class DeviceSetupWorkflowTest extends ComponentTestBase {
         assertThat(savedDevice.get().isOnline()).isTrue();
 
         // Step 3: Verify user's device list was updated
-        final User updatedUser = userRepository.findByIdWithDevices(testUser.getId()).orElseThrow();
-        assertThat(updatedUser.getDevices()).hasSize(2); // Original test device + new device
-        assertThat(updatedUser.getDevices())
+        // First, let's check if devices exist for this user
+        final List<Device> userDevices = deviceRepository.findByUserId(testUser.getId());
+        assertThat(userDevices).hasSize(2); // Original test device + new device
+        assertThat(userDevices)
                 .extracting(Device::getDeviceId)
                 .contains("NEW-DEVICE-001", "COMPONENT-FRIDGE-001");
     }
@@ -127,10 +128,7 @@ class DeviceSetupWorkflowTest extends ComponentTestBase {
         }
 
         // Step 4: Verify user's active device list was updated
-        final User updatedUser = userRepository.findById(testUser.getId()).orElseThrow();
-        final List<Device> activeDevices = updatedUser.getDevices().stream()
-                .filter(Device::isOnline)
-                .toList();
+        final List<Device> activeDevices = deviceRepository.findByUserIdAndActive(testUser.getId(), true);
         assertThat(activeDevices).isEmpty(); // No active devices after deactivation
     }
 
@@ -167,23 +165,23 @@ class DeviceSetupWorkflowTest extends ComponentTestBase {
                 .andExpect(jsonPath("$.data.userId").value(savedSecondUser.getId()));
 
         // Step 3: Verify both users have their respective devices
-        final User firstUserWithDevices = userRepository.findByIdWithDevices(testUser.getId()).orElseThrow();
-        final User secondUserWithDevices = userRepository.findByIdWithDevices(savedSecondUser.getId()).orElseThrow();
+        final List<Device> firstUserDevices = deviceRepository.findByUserId(testUser.getId());
+        final List<Device> secondUserDevices = deviceRepository.findByUserId(savedSecondUser.getId());
 
-        assertThat(firstUserWithDevices.getDevices())
+        assertThat(firstUserDevices)
                 .extracting(Device::getDeviceId)
                 .contains("COMPONENT-FRIDGE-001");
 
-        assertThat(secondUserWithDevices.getDevices())
+        assertThat(secondUserDevices)
                 .extracting(Device::getDeviceId)
                 .contains("SECOND-USER-DEVICE");
 
         // Step 4: Verify devices are isolated between users
-        assertThat(firstUserWithDevices.getDevices())
+        assertThat(firstUserDevices)
                 .extracting(Device::getDeviceId)
                 .doesNotContain("SECOND-USER-DEVICE");
 
-        assertThat(secondUserWithDevices.getDevices())
+        assertThat(secondUserDevices)
                 .extracting(Device::getDeviceId)
                 .doesNotContain("COMPONENT-FRIDGE-001");
     }
