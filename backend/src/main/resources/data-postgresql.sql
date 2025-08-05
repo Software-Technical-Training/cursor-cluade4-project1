@@ -21,31 +21,31 @@ INSERT INTO users (id, name, email, password, phone, address, latitude, longitud
 ON CONFLICT (id) DO NOTHING;
 
 -- Insert stores
-INSERT INTO stores (id, name, address, latitude, longitude, phone, email, opening_time, closing_time, has_delivery, has_pickup, delivery_fee, minimum_order_amount, active, created_at, updated_at) VALUES
-(1, 'Fresh Mart Downtown', '399 4th Street, San Francisco, CA 94107', 37.7816, -122.3988, '(415) 555-0101', 'downtown@freshmart.com', '07:00:00', '22:00:00', true, true, 5.99, 25.00, true, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-(2, 'QuickShop Express', '567 Market Street, San Francisco, CA 94105', 37.7749, -122.4194, '(415) 555-0102', 'info@quickshop.com', '07:00:00', '23:00:00', true, true, 4.99, 15.00, true, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+INSERT INTO stores (id, name, address, latitude, longitude, phone, email, opening_time, closing_time, has_delivery, has_pickup, delivery_fee, minimum_order_amount, active, accepting_orders) VALUES
+(1, 'Fresh Mart Downtown', '399 4th Street, San Francisco, CA 94107', 37.7816, -122.3988, '(415) 555-0101', 'downtown@freshmart.com', '07:00:00', '22:00:00', true, true, 5.99, 25.00, true, true),
+(2, 'QuickShop Express', '567 Market Street, San Francisco, CA 94105', 37.7749, -122.4194, '(415) 555-0102', 'info@quickshop.com', '07:00:00', '23:00:00', true, true, 4.99, 15.00, true, true)
 ON CONFLICT (id) DO NOTHING;
 
 -- Insert device
-INSERT INTO devices (id, device_id, name, user_id, online, active, last_sync, mock_data_interval_seconds, mock_consumption_rate, created_at, updated_at) VALUES
-(1, 'FRIDGE-001', 'Kitchen Smart Fridge', 1, true, true, CURRENT_TIMESTAMP, 30, 0.05, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+INSERT INTO devices (id, device_id, name, user_id, online, active, last_sync, mock_data_interval_seconds, mock_consumption_rate, created_at) VALUES
+(1, 'FRIDGE-001', 'Kitchen Smart Fridge', 1, true, true, CURRENT_TIMESTAMP, 30, 0.05, CURRENT_TIMESTAMP)
 ON CONFLICT (id) DO NOTHING;
 
 -- Insert user-store relationships
-INSERT INTO user_stores (id, user_id, store_id, priority, is_active, max_delivery_fee, max_distance_miles, notes, created_at, updated_at) VALUES
-(1, 1, 1, 1, true, 10.00, 5.0, 'Primary store selected during registration', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-(2, 1, 2, 2, true, 10.00, 5.0, 'Backup store option', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+INSERT INTO user_stores (id, user_id, store_id, priority, is_active, max_delivery_fee, max_distance_miles, notes, added_at) VALUES
+(1, 1, 1, 1, true, 10.00, 5.0, 'Primary store selected during registration', CURRENT_TIMESTAMP),
+(2, 1, 2, 2, true, 10.00, 5.0, 'Backup store option', CURRENT_TIMESTAMP)
 ON CONFLICT (id) DO NOTHING;
 
 -- Insert inventory items with various statuses (using PostgreSQL interval syntax)
 INSERT INTO inventory_items (id, device_id, grocery_item_id, quantity, threshold_quantity, status, added_at, last_updated, expiration_date) VALUES
 (1, 1, 1, 0.3, 0.5, 'LOW', CURRENT_TIMESTAMP - INTERVAL '5 days', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP + INTERVAL '7 days'),
 (2, 1, 2, 0.0, 0.5, 'OUT_OF_STOCK', CURRENT_TIMESTAMP - INTERVAL '7 days', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP + INTERVAL '14 days'),
-(3, 1, 3, 4.0, 2.0, 'IN_STOCK', CURRENT_TIMESTAMP - INTERVAL '2 days', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP + INTERVAL '10 days'),
+(3, 1, 3, 4.0, 2.0, 'SUFFICIENT', CURRENT_TIMESTAMP - INTERVAL '2 days', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP + INTERVAL '10 days'),
 (4, 1, 4, 0.5, 2.0, 'CRITICAL', CURRENT_TIMESTAMP - INTERVAL '3 days', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP + INTERVAL '3 days'),
-(5, 1, 5, 5.0, 3.0, 'IN_STOCK', CURRENT_TIMESTAMP - INTERVAL '1 day', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP + INTERVAL '14 days'),
+(5, 1, 5, 5.0, 3.0, 'SUFFICIENT', CURRENT_TIMESTAMP - INTERVAL '1 day', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP + INTERVAL '14 days'),
 (6, 1, 6, 0.8, 1.0, 'LOW', CURRENT_TIMESTAMP - INTERVAL '2 days', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP + INTERVAL '5 days'),
-(7, 1, 7, 2.0, 1.0, 'IN_STOCK', CURRENT_TIMESTAMP - INTERVAL '1 day', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP + INTERVAL '7 days'),
+(7, 1, 7, 2.0, 1.0, 'SUFFICIENT', CURRENT_TIMESTAMP - INTERVAL '1 day', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP + INTERVAL '7 days'),
 (8, 1, 8, 0.4, 1.0, 'LOW', CURRENT_TIMESTAMP - INTERVAL '4 days', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP + INTERVAL '14 days')
 ON CONFLICT (id) DO NOTHING;
 
