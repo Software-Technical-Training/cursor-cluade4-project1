@@ -11,7 +11,10 @@ import org.springframework.stereotype.Component;
 /**
  * Alternative data seeder for cloud environments
  * This provides programmatic control over data seeding in cloud SQL environments
- * Currently disabled in favor of SQL scripts, but can be enabled if needed
+ * 
+ * CURRENTLY DISABLED - No mock data initialization in production PostgreSQL
+ * Data seeding only occurs in local H2 development environment via data.sql
+ * To enable: uncomment @Component annotation below
  */
 // @Component
 @RequiredArgsConstructor
