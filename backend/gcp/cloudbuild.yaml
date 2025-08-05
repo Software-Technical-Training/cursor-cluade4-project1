@@ -43,8 +43,9 @@ steps:
       - '--cpu=${_CPU}'
       - '--min-instances=${_MIN_INSTANCES}'
       - '--max-instances=${_MAX_INSTANCES}'
-      - '--set-env-vars=SPRING_PROFILES_ACTIVE=cloudsql,DB_NAME=grocery_automation,DB_USER=postgres,DB_PASSWORD=${_DB_PASSWORD},CLOUD_SQL_INSTANCE=grocery-automation-467922:us-west2:grocery-automation-db'
-      - '--set-cloudsql-instances=grocery-automation-467922:us-west2:grocery-automation-db'
+      - '--set-env-vars=SPRING_PROFILES_ACTIVE=cloud'
+      # Temporarily disabled Cloud SQL config - configure manually in Cloud Run
+      # - '--set-cloudsql-instances=grocery-automation-467922:us-west2:grocery-automation-db'
       - '--service-account=${_SERVICE_ACCOUNT}'
     id: 'deploy-to-cloud-run'
     waitFor: ['push-image']
