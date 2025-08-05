@@ -55,14 +55,13 @@
             <scope>runtime</scope>
         </dependency>
 
-        <!-- Cloud SQL Socket Factory for PostgreSQL - Commented out for local testing -->
-        <!--
+        <!-- Cloud SQL Socket Factory for PostgreSQL -->
+        <!-- Note: This dependency is available in GCP Cloud Build but not in local eBay Maven repos -->
         <dependency>
             <groupId>com.google.cloud.sql</groupId>
             <artifactId>postgres-socket-factory</artifactId>
             <version>1.14.1</version>
         </dependency>
-        -->
 
         <!-- Lombok for reducing boilerplate -->
         <dependency>
