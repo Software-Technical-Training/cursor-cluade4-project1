@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -93,6 +94,34 @@ public class UserServiceImpl implements UserService {
                 throw new RuntimeException("Email already in use: " + request.getEmail());
             }
             user.setEmail(request.getEmail());
+        }
+        
+        User updatedUser = userRepository.save(user);
+        log.info("User updated successfully with ID: {}", updatedUser.getId());
+        
+        return mapToUserResponse(updatedUser);
+    }
+    
+    @Override
+    public UserResponse updateUser(Long id, Map<String, Object> updates) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found with ID: " + id));
+        
+        // Update fields dynamically based on the map
+        if (updates.containsKey("name")) {
+            user.setName((String) updates.get("name"));
+        }
+        if (updates.containsKey("phone")) {
+            user.setPhone((String) updates.get("phone"));
+        }
+        if (updates.containsKey("address")) {
+            user.setAddress((String) updates.get("address"));
+        }
+        if (updates.containsKey("latitude")) {
+            user.setLatitude((Double) updates.get("latitude"));
+        }
+        if (updates.containsKey("longitude")) {
+            user.setLongitude((Double) updates.get("longitude"));
         }
         
         User updatedUser = userRepository.save(user);

@@ -1,0 +1,39 @@
+# Order-related types
+
+type Order implements Node & Timestamped {
+    id: ID!
+    user: User!
+    store: Store!
+    orderNumber: String!
+    status: OrderStatus!
+    items: [OrderItem!]!
+    subtotal: Float!
+    deliveryFee: Float!
+    tax: Float!
+    totalAmount: Float!
+    deliveryAddress: String!
+    deliveryInstructions: String
+    scheduledDeliveryTime: String
+    actualDeliveryTime: String
+    approvedAt: String
+    placedAt: String
+    createdAt: String
+    updatedAt: String
+}
+
+type OrderItem implements Node {
+    id: ID!
+    order: Order!
+    groceryItem: GroceryItem!
+    quantity: Float!
+    unitPrice: Float!
+    totalPrice: Float!
+    notes: String
+}
+
+# Response types
+type OrderResponse implements Response {
+    success: Boolean!
+    message: String
+    order: Order
+}

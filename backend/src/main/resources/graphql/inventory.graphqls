@@ -1,0 +1,55 @@
+# Inventory-related types
+
+type GroceryItem implements Node {
+    id: ID!
+    name: String!
+    description: String
+    category: String!
+    unit: String!
+    barcode: String
+    sku: String!
+    brand: String
+    imageUrl: String
+    defaultThreshold: Float!
+    active: Boolean!
+    caloriesPerUnit: Int
+    allergens: String
+}
+
+type InventoryItem implements Node & Timestamped {
+    id: ID!
+    device: Device!
+    groceryItem: GroceryItem!
+    quantity: Float!
+    thresholdQuantity: Float!
+    status: InventoryStatus!
+    lastUpdated: String!
+    addedAt: String
+    expirationDate: String
+    createdAt: String
+    updatedAt: String
+}
+
+type CurrentInventory {
+    device: Device!
+    items: [InventoryItem!]!
+    totalItems: Int!
+    lowStockItems: Int!
+    criticalItems: Int!
+    outOfStockItems: Int!
+    lastUpdated: String!
+}
+
+type InventoryAlert {
+    inventoryItem: InventoryItem!
+    alertType: NotificationType!
+    message: String!
+    createdAt: String!
+}
+
+# Response types
+type InventoryItemResponse implements Response {
+    success: Boolean!
+    message: String
+    inventoryItem: InventoryItem
+}

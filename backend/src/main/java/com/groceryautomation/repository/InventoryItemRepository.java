@@ -32,4 +32,6 @@ public interface InventoryItemRepository extends JpaRepository<InventoryItem, Lo
     
     @Query("SELECT COUNT(i) FROM InventoryItem i WHERE i.device.user.id = :userId AND i.status = :status")
     Long countByUserIdAndStatus(@Param("userId") Long userId, @Param("status") InventoryStatus status);
+    
+    Integer countByDeviceId(Long deviceId);
 } 

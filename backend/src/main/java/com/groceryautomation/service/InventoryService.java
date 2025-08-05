@@ -10,6 +10,8 @@ public interface InventoryService {
     
     CurrentInventoryResponse getCurrentInventory(Long userId);
     
+    InventoryItemResponse getInventoryItemById(Long id);
+    
     List<InventoryItemResponse> getInventoryAlerts(Long userId);
     
     List<InventoryItemResponse> getInventoryByStatus(Long userId, InventoryStatus status);

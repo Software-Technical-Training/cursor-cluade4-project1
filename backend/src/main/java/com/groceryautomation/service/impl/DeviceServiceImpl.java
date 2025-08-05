@@ -86,6 +86,17 @@ public class DeviceServiceImpl implements DeviceService {
     }
     
     @Override
+    public Device getDeviceById(Long id) {
+        return deviceRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Device not found with ID: " + id));
+    }
+    
+    @Override
+    public List<Device> getDevicesByUserId(Long userId) {
+        return deviceRepository.findByUserId(userId);
+    }
+    
+    @Override
     public void deactivateDevice(String deviceId) {
         Device device = deviceRepository.findByDeviceId(deviceId)
                 .orElseThrow(() -> new RuntimeException("Device not found: " + deviceId));

@@ -14,7 +14,7 @@ import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.List;
 
-@Component
+// @Component
 @RequiredArgsConstructor
 @Slf4j
 @Profile("!production") // Don't run in production

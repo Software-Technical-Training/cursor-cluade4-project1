@@ -1,0 +1,61 @@
+# Common types, enums, and interfaces
+
+# Using String for DateTime fields to avoid scalar implementation complexity
+
+# Enums matching the Java enums
+enum InventoryStatus {
+    SUFFICIENT
+    LOW
+    CRITICAL
+    OUT_OF_STOCK
+}
+
+enum OrderStatus {
+    DRAFT
+    PENDING_APPROVAL
+    APPROVED
+    PLACED
+    CONFIRMED
+    PREPARING
+    READY_FOR_DELIVERY
+    OUT_FOR_DELIVERY
+    DELIVERED
+    CANCELLED
+    FAILED
+}
+
+enum NotificationType {
+    LOW_STOCK_WARNING
+    OUT_OF_STOCK_ALERT
+    ORDER_CREATED
+    ORDER_APPROVED
+    ORDER_DELIVERED
+    DEVICE_OFFLINE
+    SYSTEM_ALERT
+}
+
+# Common interfaces
+interface Node {
+    id: ID!
+}
+
+interface Timestamped {
+    createdAt: String
+    updatedAt: String
+}
+
+# Pagination support
+type PageInfo {
+    hasNextPage: Boolean!
+    hasPreviousPage: Boolean!
+    startCursor: String
+    endCursor: String
+    totalCount: Int!
+}
+
+# Error handling
+type Error {
+    message: String!
+    code: String
+    field: String
+}

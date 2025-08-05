@@ -23,8 +23,8 @@ public class MockSensorService {
     private final InventoryItemRepository inventoryItemRepository;
     private final Random random = new Random();
     
-    @Scheduled(fixedDelay = 30000) // Run every 30 seconds
-    @Transactional
+    // @Scheduled(fixedDelay = 30000, initialDelay = 60000) // Run every 30 seconds, start after 1 minute
+    // @Transactional
     public void simulateInventoryConsumption() {
         log.debug("Running mock sensor data generation...");
         
@@ -75,8 +75,8 @@ public class MockSensorService {
         log.info("Mock sensor data updated for device: {}", device.getDeviceId());
     }
     
-    @Scheduled(fixedDelay = 300000) // Run every 5 minutes
-    @Transactional
+    // @Scheduled(fixedDelay = 300000, initialDelay = 120000) // Run every 5 minutes, start after 2 minutes
+    // @Transactional
     public void simulateOccasionalRestocking() {
         log.debug("Running occasional restocking simulation...");
         

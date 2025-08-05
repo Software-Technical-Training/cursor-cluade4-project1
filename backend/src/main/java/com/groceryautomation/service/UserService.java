@@ -21,6 +21,8 @@ public interface UserService {
     
     UserResponse updateUser(Long id, UserRegistrationRequest request);
     
+    UserResponse updateUser(Long id, java.util.Map<String, Object> updates);
+    
     void deleteUser(Long id);
     
     boolean existsByEmail(String email);

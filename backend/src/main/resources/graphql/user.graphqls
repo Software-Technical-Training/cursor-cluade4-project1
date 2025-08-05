@@ -1,0 +1,96 @@
+# User-related types and operations
+
+type User implements Node & Timestamped {
+    id: ID!
+    name: String!
+    email: String!
+    phone: String!
+    address: String!
+    latitude: Float
+    longitude: Float
+    devices: [Device!]!
+    stores: [UserStore!]!
+    orders(status: OrderStatus): [Order!]!
+    notifications(limit: Int = 10): [Notification!]!
+    createdAt: String
+    updatedAt: String
+}
+
+type Device implements Node & Timestamped {
+    id: ID!
+    deviceId: String!
+    name: String!
+    user: User!
+    active: Boolean!
+    online: Boolean!
+    lastSync: String
+    inventoryItems: [InventoryItem!]!
+    inventoryCount: Int!
+    createdAt: String
+    updatedAt: String
+}
+
+type UserStore implements Node {
+    id: ID!
+    user: User!
+    store: Store!
+    priority: Int!
+    isDefault: Boolean!
+}
+
+type Notification implements Node & Timestamped {
+    id: ID!
+    user: User!
+    type: NotificationType!
+    title: String!
+    message: String!
+    read: Boolean!
+    relatedOrderId: ID
+    relatedInventoryItemId: ID
+    createdAt: String
+    updatedAt: String
+}
+
+# Input types
+input UserRegistrationInput {
+    name: String!
+    email: String!
+    password: String!
+    phone: String!
+    address: String!
+    latitude: Float
+    longitude: Float
+}
+
+input UpdateUserInput {
+    name: String
+    phone: String
+    address: String
+    latitude: Float
+    longitude: Float
+}
+
+input DeviceRegistrationInput {
+    deviceId: String!
+    name: String
+    userId: ID!
+}
+
+# Response types
+type UserResponse implements Response {
+    success: Boolean!
+    message: String
+    user: User
+}
+
+type DeviceResponse implements Response {
+    success: Boolean!
+    message: String
+    device: Device
+}
+
+type UserStoreResponse implements Response {
+    success: Boolean!
+    message: String
+    userStore: UserStore
+}

@@ -73,6 +73,14 @@ public class InventoryServiceImpl implements InventoryService {
     
     @Override
     @Transactional(readOnly = true)
+    public InventoryItemResponse getInventoryItemById(Long id) {
+        InventoryItem item = inventoryItemRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Inventory item not found: " + id));
+        return mapToInventoryItemResponse(item);
+    }
+    
+    @Override
+    @Transactional(readOnly = true)
     public List<InventoryItemResponse> getInventoryAlerts(Long userId) {
         List<InventoryStatus> alertStatuses = Arrays.asList(
                 InventoryStatus.LOW, 

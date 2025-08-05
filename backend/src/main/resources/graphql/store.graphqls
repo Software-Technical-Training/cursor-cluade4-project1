@@ -1,0 +1,39 @@
+# Store-related types
+
+type Store implements Node {
+    id: ID!
+    name: String!
+    address: String!
+    latitude: Float!
+    longitude: Float!
+    phone: String
+    email: String
+    googlePlaceId: String
+    openingTime: String
+    closingTime: String
+    active: Boolean!
+    acceptingOrders: Boolean!
+    distanceInMiles: Float
+    hasDelivery: Boolean!
+    hasPickup: Boolean!
+    deliveryFee: Float!
+    minimumOrderAmount: Float!
+    # Products available at this store with pricing
+    productPrices(skus: [String!]): [ProductPrice!]!
+}
+
+type ProductPrice {
+    sku: String!
+    groceryItem: GroceryItem!
+    store: Store!
+    price: Float!
+    discountedPrice: Float
+    inStock: Boolean!
+    lastUpdated: String!
+}
+
+input UserStoreSelectionInput {
+    userId: ID!
+    storeId: ID!
+    priority: Int!
+}

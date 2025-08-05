@@ -1,0 +1,100 @@
+# Test queries for GraphQL Playground
+
+# Query to get all users
+query GetAllUsers {
+  users {
+    id
+    name
+    email
+    phone
+    address
+    latitude
+    longitude
+  }
+}
+
+# Query to get a specific user with devices
+query GetUserWithDevices($userId: ID!) {
+  user(id: $userId) {
+    id
+    name
+    email
+    devices {
+      id
+      deviceId
+      name
+      active
+      online
+      inventoryCount
+    }
+  }
+}
+
+# Query to find nearby stores
+query FindNearbyStores($lat: Float!, $lon: Float!, $radius: Float) {
+  nearbyStores(latitude: $lat, longitude: $lon, radius: $radius) {
+    id
+    name
+    address
+    distanceInMiles
+    hasDelivery
+    deliveryFee
+    minimumOrderAmount
+  }
+}
+
+# Query to get current inventory
+query GetCurrentInventory($deviceId: ID!) {
+  currentInventory(deviceId: $deviceId) {
+    device {
+      id
+      name
+      online
+    }
+    totalItems
+    lowStockItems
+    outOfStockItems
+    items {
+      id
+      quantity
+      thresholdQuantity
+      status
+      groceryItem {
+        name
+        category
+        unit
+      }
+    }
+  }
+}
+
+# Mutation to register a new user
+mutation RegisterUser($input: UserRegistrationInput!) {
+  registerUser(input: $input) {
+    success
+    message
+    user {
+      id
+      name
+      email
+    }
+  }
+}
+
+# Variables for testing
+# {
+#   "userId": "1",
+#   "deviceId": "1",
+#   "lat": 37.7749,
+#   "lon": -122.4194,
+#   "radius": 5.0,
+#   "input": {
+#     "name": "Test User",
+#     "email": "test@example.com",
+#     "password": "password123",
+#     "phone": "+1234567890",
+#     "address": "123 Test St, Test City, TC 12345",
+#     "latitude": 37.7749,
+#     "longitude": -122.4194
+#   }
+# }

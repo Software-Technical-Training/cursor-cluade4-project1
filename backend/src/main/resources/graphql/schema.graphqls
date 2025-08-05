@@ -1,0 +1,58 @@
+# Root schema definition for Grocery Automation System
+type Query {
+    # User queries
+    me: User
+    user(id: ID!): User
+    users: [User!]!
+    
+    # Device queries
+    device(id: ID!): Device
+    devicesByUser(userId: ID!): [Device!]!
+    
+    # Inventory queries
+    currentInventory(deviceId: ID!): CurrentInventory
+    inventoryItem(id: ID!): InventoryItem
+    inventoryByStatus(deviceId: ID!, status: InventoryStatus): [InventoryItem!]!
+    
+    # Store queries
+    store(id: ID!): Store
+    nearbyStores(latitude: Float!, longitude: Float!, radius: Float = 5.0, limit: Int = 5): [Store!]!
+    allActiveStores: [Store!]!
+    
+    # Order queries
+    order(id: ID!): Order
+    ordersByUser(userId: ID!, status: OrderStatus): [Order!]!
+    draftOrders(userId: ID!): [Order!]!
+}
+
+type Mutation {
+    # User mutations
+    registerUser(input: UserRegistrationInput!): UserResponse!
+    updateUser(id: ID!, input: UpdateUserInput!): UserResponse!
+    
+    # Device mutations
+    registerDevice(input: DeviceRegistrationInput!): DeviceResponse!
+    updateDeviceStatus(deviceId: ID!, online: Boolean!): DeviceResponse!
+    
+    # Store mutations
+    selectUserStore(input: UserStoreSelectionInput!): UserStoreResponse!
+    updateStorePreference(userStoreId: ID!, priority: Int!): UserStoreResponse!
+    
+    # Order mutations
+    approveOrder(orderId: ID!): OrderResponse!
+    cancelOrder(orderId: ID!): OrderResponse!
+    
+    # Inventory mutations
+    updateInventoryThreshold(inventoryItemId: ID!, threshold: Float!): InventoryItemResponse!
+}
+
+# Common response wrapper
+interface Response {
+    success: Boolean!
+    message: String
+}
+
+schema {
+    query: Query
+    mutation: Mutation
+}
