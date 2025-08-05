@@ -575,3 +575,10 @@ Excellent! The CI/CD pipeline is working. I recommend setting up Cloud SQL Postg
 Yes lets setup prod db
 
 ### Assistant Response - Cloud SQL Setup:
+
+I've prepared everything for Cloud SQL setup including instructions, configuration files, and updated dependencies.
+
+### User Update - Cloud SQL Working:
+I deleted the manual build trigger we had created earlier to test and now only have the automated deployment with the cloudbuild.yaml pointing to cloudsql. The new external URL is @https://grocery-automation-backend-hdoivm22kq-wl.a.run.app/. Make neccessary changes in any files. The health actuator is now giving the correct response back and pointing to postgresql and not h2. {"db":{"status":"UP","details":{"database":"PostgreSQL","validationQuery":"isValid()"}}. I am again getting the CORS error which we fixed before when I hit the new URL from swagger ui. pls fix this and lets issue a PR to redeploy.
+
+### Assistant Response - Fixing CORS for New URL:

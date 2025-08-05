@@ -21,6 +21,7 @@ public class CorsConfig implements WebMvcConfigurer {
                     "http://localhost:3000",
                     "http://localhost:8080",
                     "https://backend-952204582614.us-west2.run.app",
+                    "https://grocery-automation-backend-hdoivm22kq-wl.a.run.app",
                     "https://*.run.app"  // Allow all Cloud Run URLs
                 )
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD")
@@ -35,7 +36,8 @@ public class CorsConfig implements WebMvcConfigurer {
         configuration.setAllowedOriginPatterns(Arrays.asList(
             "http://localhost:*",
             "https://*.run.app",
-            "https://backend-952204582614.us-west2.run.app"
+            "https://backend-952204582614.us-west2.run.app",
+            "https://grocery-automation-backend-hdoivm22kq-wl.a.run.app"
         ));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD"));
         configuration.setAllowedHeaders(List.of("*"));
