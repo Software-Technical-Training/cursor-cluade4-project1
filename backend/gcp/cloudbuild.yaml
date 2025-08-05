@@ -43,7 +43,8 @@ steps:
       - '--cpu=${_CPU}'
       - '--min-instances=${_MIN_INSTANCES}'
       - '--max-instances=${_MAX_INSTANCES}'
-      - '--set-env-vars=SPRING_PROFILES_ACTIVE=cloud'
+      - '--set-env-vars=SPRING_PROFILES_ACTIVE=cloudsql,DB_NAME=grocery_automation,DB_USER=postgres,DB_PASSWORD=${_DB_PASSWORD},CLOUD_SQL_INSTANCE=grocery-automation-467922:us-west2:grocery-automation-db'
+      - '--set-cloudsql-instances=grocery-automation-467922:us-west2:grocery-automation-db'
       - '--service-account=${_SERVICE_ACCOUNT}'
     id: 'deploy-to-cloud-run'
     waitFor: ['push-image']
@@ -60,6 +61,7 @@ substitutions:
   _MIN_INSTANCES: '1'
   _MAX_INSTANCES: '10'
   _SERVICE_ACCOUNT: 'grocery-app-deployer@grocery-automation-467922.iam.gserviceaccount.com'
+  _DB_PASSWORD: 'PLACEHOLDER' # This should be set in Cloud Build trigger configuration
 
 # Build configuration options
 options:

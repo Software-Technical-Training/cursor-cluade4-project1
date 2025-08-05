@@ -66,3 +66,6 @@ temp/
 # GCP Service Account Keys
 *.json
 grocery-automation-*.json
+
+# Deployment scripts with passwords
+backend/gcp/deploy-with-cloudsql.sh

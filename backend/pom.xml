@@ -48,11 +48,18 @@
             <scope>runtime</scope>
         </dependency>
 
-        <!-- PostgreSQL for Production (later) -->
+        <!-- PostgreSQL for Production -->
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <scope>runtime</scope>
+        </dependency>
+
+        <!-- Cloud SQL Socket Factory for PostgreSQL -->
+        <dependency>
+            <groupId>com.google.cloud.sql</groupId>
+            <artifactId>postgres-socket-factory</artifactId>
+            <version>1.14.1</version>
         </dependency>
 
         <!-- Lombok for reducing boilerplate -->

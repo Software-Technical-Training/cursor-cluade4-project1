@@ -12,7 +12,9 @@ This guide will help you set up automated deployments using Google Cloud Build.
 1. Go to [Cloud Build API](https://console.cloud.google.com/apis/library/cloudbuild.googleapis.com)
 2. Click "Enable"
 
-## Step 2: Grant Permissions to Cloud Build Service Account
+## Step 2: Grant Permissions to Service Accounts
+
+### A. Cloud Build Service Account Permissions
 
 The Cloud Build service account needs permissions to deploy to Cloud Run and access Artifact Registry.
 
@@ -39,6 +41,22 @@ gcloud projects add-iam-policy-binding $PROJECT_ID \
 gcloud projects add-iam-policy-binding $PROJECT_ID \
   --member="serviceAccount:${PROJECT_NUMBER}@cloudbuild.gserviceaccount.com" \
   --role="roles/artifactregistry.writer"
+```
+
+### B. Grocery App Deployer Service Account Permissions
+
+The `grocery-app-deployer` service account also needs the Logs Writer permission:
+
+1. Go to [IAM & Admin](https://console.cloud.google.com/iam-admin/iam)
+2. Find: `grocery-app-deployer@grocery-automation-467922.iam.gserviceaccount.com`
+3. Click "Edit" and add:
+   - **Logs Writer** - to write build logs
+
+Or run this command:
+```bash
+gcloud projects add-iam-policy-binding grocery-automation-467922 \
+  --member="serviceAccount:grocery-app-deployer@grocery-automation-467922.iam.gserviceaccount.com" \
+  --role="roles/logging.logWriter"
 ```
 
 ## Step 3: Connect GitHub Repository
