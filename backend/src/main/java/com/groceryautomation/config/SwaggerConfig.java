@@ -20,7 +20,7 @@ public class SwaggerConfig {
         localServer.setDescription("Local Development Server");
         
         Server cloudRunServer = new Server();
-        cloudRunServer.setUrl("https://backend-952204582614.us-west2.run.app");
+        cloudRunServer.setUrl("https://grocery-automation-backend-hdoivm22kq-wl.a.run.app");
         cloudRunServer.setDescription("Cloud Run Server");
         
         Server productionServer = new Server();
